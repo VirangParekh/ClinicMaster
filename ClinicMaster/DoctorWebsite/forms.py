@@ -22,14 +22,13 @@ class Medicine(mf):  #instanciate without fail
             'patient',
         ]
 
-class PrescriptionForm(ModelForm):
-    class Meta:
-        model=Prescription
-        fields='__all__'
-
 class Appointment(mf):
     class Meta:
         model= Appointment
         fields='__all__'
+        excluded=[
+            'patient',
+            'doctor',
+        ]
 
 
