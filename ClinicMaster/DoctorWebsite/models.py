@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from PatientApp.models import PatientModel
 from django.core.validators import MinValueValidator
-import templates.DoctorWebsite.Images
+#import templates.DoctorWebsite.Images
 
 class Clinic(models.Model):
     #doctor=models.ManyToManyField(DoctorModel, related_name='clinic')
@@ -25,7 +25,7 @@ class DoctorModel(models.Model):
     experience=models.IntegerField(verbose_name='experience')
     practice_number=models.CharField(verbose_name='practice_number', max_length=7, unique=True)
     clinic=models.ManyToManyField(Clinic, related_name='doctor')
-    photo=models.ImageField(verbose_name='doctor_photo', upload_to='Images')
+    photo=models.ImageField(verbose_name='doctor_photo')
 
     def __str__(self):
         return '%s %s'%(self.first_name,self.last_name)
@@ -37,6 +37,7 @@ class Medicine(models.Model):
         ('Medicine','Medicine'),
 
     )
+    appointment_no=models.CharField(verbose_name='Appointment Number', max_length=20)
     patient=models.ForeignKey(PatientModel, on_delete=models.CASCADE)
     mode=models.CharField(verbose_name='mode',choices=mode_choices, max_length=8)
     description=models.CharField(verbose_name='medicine_description',max_length=500)
@@ -50,7 +51,7 @@ class Medicine(models.Model):
 
 class Prescription(models.Model):
     doctor=models.ForeignKey(DoctorModel, on_delete=models.DO_NOTHING)
-    patient=models.ForeignKey(PatientModel, on_delete=models.DO_NOTHING)
+    #patient=models.ForeignKey(PatientModel, on_delete=models.DO_NOTHING)
     medicine=models.ManyToManyField(Medicine)
 
 class Appointment(models.Model):
