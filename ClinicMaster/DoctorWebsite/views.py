@@ -11,6 +11,10 @@ class PrescrptionView(ModelViewSet):
     serializer_class=PrescriptionSerializer
     queryset=Prescription.objects.all()
 
+class AppointmentView(ModelViewSet):
+    serializer_class=AppointmentSerializer
+    queryset=Appointment.objects.all()
+
 
 
 # Create your views here.
