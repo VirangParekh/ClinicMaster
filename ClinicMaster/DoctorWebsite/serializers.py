@@ -26,3 +26,4 @@ class AppointmentSerializer(msr):
     class Meta:
         model=Appointment
         fields='__all__'
+
