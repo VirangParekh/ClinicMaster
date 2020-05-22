@@ -10,19 +10,20 @@ class Clinic(models.Model):
     from_time=models.TimeField(verbose_name='from_time')
     to_time=models.TimeField(verbose_name='to_time')
     days=models.CharField(verbose_name='working_days', max_length=300, default='Open all days')
+    phone=models.IntegerField(verbose_name='Clinic Phone', null=True)
 
     def __str__(self):
         return self.name
 
 class DoctorModel(models.Model):
-    user=models.ForeignKey(User, on_delete=models.CASCADE)
+    user=models.OneToOneField(User, on_delete=models.CASCADE)
     first_name=models.CharField(verbose_name='first_name',max_length=150)
     last_name=models.CharField(verbose_name='last_name',max_length=150)
     phone_personal=models.CharField(verbose_name='number_own', max_length=12)
     degree=models.CharField(verbose_name='degree', max_length=120)
     description=models.CharField(verbose_name='description', max_length=500)
     experience=models.IntegerField(verbose_name='experience')
-    practice_number=models.CharField(verbose_name='practice_number', max_length=7)
+    practice_number=models.CharField(verbose_name='practice_number', max_length=7, unique=True)
     clinic=models.ManyToManyField(Clinic, related_name='doctor')
     photo=models.ImageField(verbose_name='doctor_photo', upload_to='Images')
 
@@ -45,11 +46,12 @@ class Medicine(models.Model):
     days=models.IntegerField(verbose_name='number_of_days', validators=[MinValueValidator(0, message='Number of days cannot be negative')])
     
     def __str__(self):
-        return '%s %s %s-%s-%s %s'%(self.mode,self.description,str(self.morning),str(self.afternoon),str(self.evening),str(self.days))
+        return self.description
 
 class Prescription(models.Model):
-    patient=models.ForeignKey(PatientModel, on_delete=models.CASCADE)
-    medicine=models.ForeignKey(Medicine, on_delete=models.CASCADE)
+    doctor=models.ForeignKey(DoctorModel, on_delete=models.DO_NOTHING)
+    patient=models.ForeignKey(PatientModel, on_delete=models.DO_NOTHING)
+    medicine=models.ManyToManyField(Medicine)
 
 class Appointment(models.Model):
     patient= models.ForeignKey(PatientModel, on_delete=models.CASCADE)
