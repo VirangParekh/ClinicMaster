@@ -4,7 +4,6 @@ from rest_framework import serializers
 
 class DoctorProfileSerializer(msr):
 
-
     class Meta:
         model=DoctorModel
         fields='__all__'
@@ -22,3 +21,8 @@ class PrescriptionSerializer(msr):
         model=Prescription
         fields='__all__'
         read_only_fields=['doctor']
+
+class AppointmentSerializer(msr):
+    class Meta:
+        model=Appointment
+        fields='__all__'
